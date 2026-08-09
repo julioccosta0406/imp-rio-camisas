@@ -1,0 +1,1488 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Império Camisas — catálogo de camisas de futebol em pronta entrega">
+<title>Império Camisas | Pronta Entrega</title><link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head><body>
+<header><a class="logo" href="#inicio"><b>IC</b><span>IMPÉRIO<small>CAMISAS</small></span></a>
+<nav><a href="#catalogo">Catálogo</a><a href="#como">Como comprar</a></nav>
+<button id="openCart" class="cartBtn">Carrinho <i id="count">0</i></button></header>
+<section class="hero" id="inicio"><div><p>IMPÉRIO CAMISAS</p><h1>Seu time.<br><em>Sua camisa.</em></h1><strong>PRONTA ENTREGA <BR></BR> A PARTIR DE R$150,00</strong><a href="#catalogo">VER CATÁLOGO</a></div>
+<div class="heroBadge"><span>PRONTA</span><b>ENTREGA</b><small>Torcedor • Jogador</small></div></section>
+<section id="catalogo" class="catalog"><div class="top"><div><p>CATÁLOGO</p><h2>Escolha sua camisa</h2></div>
+<div class="filters"><button class="active" data-cat="todos">Todos</button>
+<select id="type"><option value="todos">Torcedor + Jogador</option><option value="torcedor">Torcedor</option><option value="jogador">Jogador</option></select></div></div>
+<div id="grid" class="grid"></div></section>
+<section id="como" class="how"><p>COMO COMPRAR</p><h2>Simples e direto.</h2><div class="steps"><article><b>01</b><h3>Escolha</h3><span>Selecione o modelo e tamanho.</span></article><article><b>02</b><h3>Adicione</h3><span>Monte seu carrinho.</span></article><article><b>03</b><h3>Finalize</h3><span>Envie o pedido pelo WhatsApp.</span></article></div></section>
+<footer><div class="logo"><b>IC</b><span>IMPÉRIO<small>CAMISAS</small></span></div><span>Estilo que veste. Paixão que representa.</span></footer>
+<div id="shade" class="shade"></div><aside id="cart"><div class="cartHead"><h2>Seu carrinho</h2><button id="closeCart">×</button></div><div id="cartItems"></div><div class="cartFoot"><div class="total"><span>Total</span><b>A consultar</b></div><button id="checkout">FINALIZAR PELO WHATSAPP</button><button id="clear">Limpar carrinho</button></div></aside>
+<div id="modal" class="modal"><div class="modalBox"><button type="button" id="closeModal">×</button><p>ESCOLHA O TAMANHO</p><h2 id="mName"></h2><div id="sizes" class="sizes"></div></div></div>
+<script>const PRODUCTS=[
+  {
+    "id": 1,
+    "name": "SÃO PAULO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_001.jpg",
+    "source": "Versão Torcedor /P(1),M(2),),2XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "2XL"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "AJAX",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_002.jpg",
+    "source": "Versão Torcedor /P(1),M(1),G(2).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "FRANÇA",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_003.jpg",
+    "source": "Versão Jogador /P(1), M(1), G(1), GG(1), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "PSG",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_004.jpg",
+    "source": "Versão Torcedor /G(1)(2).jpg",
+    "sizes": [
+      "G"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "ESCOCIA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_005.jpg",
+    "source": "Versão Torcedor /P(1),M(1),G(1)GG(2), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "AL-NASSR",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_006.jpg",
+    "source": "Versão Torcedor /P(1)(1).jpg",
+    "sizes": [
+      "P"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "FLAMENGO",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_007.jpg",
+    "source": "Versão Jogador /P(1),M(1),G(1),GG(2), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "SANTOS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_008.jpg",
+    "source": "Versão Torcedor /P(1), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "2XL"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "CHELSEA",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_009.jpg",
+    "source": "Versão Jogador /M(1),G(2),GG(2), 2XL (1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "CHILE",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_010.jpg",
+    "source": "Versão Torcedor /M(1),GG(1), 2XL (1).jpg",
+    "sizes": [
+      "M",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "INGLATERRA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_011.jpg",
+    "source": "Versão Torcedor /M(2),G(2),GG(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "INGLATERRA",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_012.jpg",
+    "source": "Versão Jogador /P(1),G(2), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "G",
+      "2XL"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "REAL MADRID",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_013.jpg",
+    "source": "Versão Jogador /M(1),GG(2) 2XL(1),4xl(1).jpg",
+    "sizes": [
+      "M",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "BARCELONA",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_014.jpg",
+    "source": "Versão Jogador /,G(1),GG(2), 2XL(1), 3Xl(1).jpg",
+    "sizes": [
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "FLAMENGO",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_015.jpg",
+    "source": "Versão Jogador /GG(1).jpg",
+    "sizes": [
+      "GG"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "ESPANHA",
+    "type": "jogador",
+    "category": "selecoes",
+    "image": "images/camisa_016.jpg",
+    "source": "Versão Jogador /Espanha_.jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "TOTTENHAM",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_017.jpg",
+    "source": "Versão Torcedor /P(1), 2XL (1).jpg",
+    "sizes": [
+      "P",
+      "2XL"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "BAYERN MUNCHER",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_018.png",
+    "source": "Versão Torcedor /P(1),M((1), 2XL(1).png",
+    "sizes": [
+      "P",
+      "M",
+      "2XL"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "MILAN",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_019.jpg",
+    "source": "Versão Torcedor /P(1),GG(1), 2XL (1).jpg",
+    "sizes": [
+      "P",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "LIVERPOOL",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_020.jpg",
+    "source": "Versão Torcedor /M(1),G(2), GG(2).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "BENFICA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_021.jpg",
+    "source": "Versão Torcedor / G (3), GG (2), 2XL(1), 3Xl(1).jpg",
+    "sizes": [
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "PALMEIRAS",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_022.jpg",
+    "source": "Versão Jogador /P(1),M(1),G((1), GG(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "BOCAQ JUNIOR",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_023.png",
+    "source": "Versão Torcedor /M(2),G(1), GG(2).png",
+    "sizes": [
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "CELTIC",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_024.jpg",
+    "source": "Versão Torcedor /P(1), M(1), G(4), GG(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "RICHMOND",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_025.png",
+    "source": "Versão Torcedor /,G(1), GG(1).png",
+    "sizes": [
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "PORTUGAL",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_026.jpg",
+    "source": "Versão Jogador /M(2), G(1), GG(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "CORINTHIANS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_027.jpg",
+    "source": "Versão Torcedor /2XL (1).jpg",
+    "sizes": [
+      "2XL"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "WEST HAM",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_028.jpg",
+    "source": "Versão Torcedor /P(1),GG(2), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "REAL MADRID",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_029.jpg",
+    "source": "Versão Torcedor /2XL(1).jpg",
+    "sizes": [
+      "2XL"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "PALMEIRAS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_030.jpg",
+    "source": "Versão Torcedor /P(1), M(2), G(3), GG(2).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "LAZIO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_031.jpg",
+    "source": "Versão Torcedor /G(1), GG(1), 2XL(1)(1).jpg",
+    "sizes": [
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "BAYERN MUNCHER",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_032.jpg",
+    "source": "Versão Torcedor /,M(2), G(3), GG(2), 2XL(1), 3xl(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "JAPÃO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_033.jpg",
+    "source": "Versão Torcedor /M(1),G(1), GG(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 34,
+    "name": "VASCO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_034.jpg",
+    "source": "Versão Torcedor /M(1)(2).jpg",
+    "sizes": [
+      "M"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "SÃO PAULO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_035.jpg",
+    "source": "Versão Torcedor /GG(1)(1).jpg",
+    "sizes": [
+      "GG"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "INTERNAZIONALE",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_036.jpg",
+    "source": "Versão Torcedor /P(1),M(3),G(3), GG(5), 2XL(2),3xl(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "REAL MADRID",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_037.jpg",
+    "source": "Versão Torcedor /P(1).jpg",
+    "sizes": [
+      "P"
+    ]
+  },
+  {
+    "id": 38,
+    "name": "NAPOLI",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_038.jpg",
+    "source": "Versão Torcedor /P(1),M(2), G(3), GG(1), 2XL(1), 3Xl(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 39,
+    "name": "MILAN",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_039.jpg",
+    "source": "Versão Torcedor /M(1),G(2),GG(2), 2XL(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 40,
+    "name": "SPORTING",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_040.jpg",
+    "source": "Versão Torcedor /GG(1), 2XL(1).jpg",
+    "sizes": [
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 41,
+    "name": "ASTON VILLA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_041.jpg",
+    "source": "Versão Torcedor /M(1),G(1)(1).jpg",
+    "sizes": [
+      "M",
+      "G"
+    ]
+  },
+  {
+    "id": 42,
+    "name": "CORINTHIANS",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_042.jpg",
+    "source": "Versão Jogador /GG(1)(1).jpg",
+    "sizes": [
+      "GG"
+    ]
+  },
+  {
+    "id": 43,
+    "name": "ESCOCIA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_043.png",
+    "source": "Versão Torcedor /P(1),2XL(1).png",
+    "sizes": [
+      "P",
+      "2XL"
+    ]
+  },
+  {
+    "id": 44,
+    "name": "PORTUGAL",
+    "type": "torcedor",
+    "category": "selecoes",
+    "image": "images/camisa_044.jpg",
+    "source": "Versão Torcedor /Portugal_.jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 45,
+    "name": "VALENCIA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_045.jpg",
+    "source": "Versão Torcedor /M(2),G(1),GG(1), 2XL (1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 46,
+    "name": "BARCELONA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_046.jpg",
+    "source": "Versão Torcedor /M(1), GG(1), 2XL(1).jpg",
+    "sizes": [
+      "M",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 47,
+    "name": "NEWCASTLE",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_047.jpg",
+    "source": "Versão Torcedor /P(1), 2XL(1), 3Xl(1).jpg",
+    "sizes": [
+      "P",
+      "2XL"
+    ]
+  },
+  {
+    "id": 48,
+    "name": "CHELSEA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_048.jpg",
+    "source": "Versão Torcedor /,G(2),GG(3), 2XL(1).jpg",
+    "sizes": [
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 49,
+    "name": "MANCHESTER CITY",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_049.jpg",
+    "source": "Versão Torcedor /P(1),M(1),G(2),GG(2).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 50,
+    "name": "CORINTHIANS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_050.jpg",
+    "source": "Versão Torcedor /P(2),G(3), GG(3).jpg",
+    "sizes": [
+      "P",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 51,
+    "name": "INTERNACIONAL",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_051.jpg",
+    "source": "Versão Torcedor /P(1),M(1),G(1), GG(1), 2XL(1)(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 52,
+    "name": "CORINTHIANS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_052.jpg",
+    "source": "Versão Torcedor /,G(3),GG(2), 2XL(1), 3XL (1).jpg",
+    "sizes": [
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 53,
+    "name": "FLAMENGO ",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_053.jpg",
+    "source": "Versão Torcedor /M(1),2Xl(2).jpg",
+    "sizes": [
+      "M",
+      "2XL"
+    ]
+  },
+  {
+    "id": 54,
+    "name": "BRASIL",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_054.jpg",
+    "source": "Versão Jogador /Modelo jogador_ G(2), GG(3).jpg",
+    "sizes": [
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 55,
+    "name": "INTERNAZIONALE",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_055.jpg",
+    "source": "Versão Torcedor /M(1),GG(1), 3Xl(1).jpg",
+    "sizes": [
+      "M",
+      "GG"
+    ]
+  },
+  {
+    "id": 56,
+    "name": "ATLETICO MINEIRO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_056.jpg",
+    "source": "Versão Torcedor /P(1),M(1), GG(1), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 57,
+    "name": "FLAMENGO",
+    "type": "torcedor",
+    "category": "brasileiros",
+    "image": "images/camisa_057.jpg",
+    "source": "Versão Torcedor /Flamengo_.jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 58,
+    "name": "BELGICA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_058.jpg",
+    "source": "Versão Torcedor /M(1),G(1).jpg",
+    "sizes": [
+      "M",
+      "G"
+    ]
+  },
+  {
+    "id": 59,
+    "name": "ARSENAL",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_059.jpg",
+    "source": "Versão Torcedor /M(1),G(1), GG(2), 2XL(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 60,
+    "name": "BARCELONA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_060.jpg",
+    "source": "Versão Torcedor / 2XL(1(, 3Xl(1).jpg",
+    "sizes": [
+      "2XL"
+    ]
+  },
+  {
+    "id": 61,
+    "name": "COLOMBIA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_061.jpg",
+    "source": "Versão Torcedor /M(1)(1).jpg",
+    "sizes": [
+      "M"
+    ]
+  },
+  {
+    "id": 62,
+    "name": "ITALIA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_062.jpg",
+    "source": "Versão Torcedor /M(2),GG(1).jpg",
+    "sizes": [
+      "M",
+      "GG"
+    ]
+  },
+  {
+    "id": 63,
+    "name": "SÃO PAULO",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_063.jpg",
+    "source": "Versão Jogador /M(2),G(2), GG(1),2XL(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 64,
+    "name": "MANCHESTER CITY",
+    "type": "torcedor",
+    "category": "europeus",
+    "image": "images/camisa_064.jpg",
+    "source": "Versão Torcedor /Manchester city_.jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 65,
+    "name": "ARSENAL",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_065.jpg",
+    "source": "Versão Torcedor /G(4), 3XL(1).jpg",
+    "sizes": [
+      "G"
+    ]
+  },
+  {
+    "id": 66,
+    "name": "ROMA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_066.jpg",
+    "source": "Versão Torcedor /P(1), 2XL(2).jpg",
+    "sizes": [
+      "P",
+      "2XL"
+    ]
+  },
+  {
+    "id": 67,
+    "name": "BOCA JUNIOR",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_067.jpg",
+    "source": "Versão Jogador /M(1),G(1) 2XL(1), 3Xl (1),4xl(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "2XL"
+    ]
+  },
+  {
+    "id": 68,
+    "name": "CORINTHIANS",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_068.jpg",
+    "source": "Versão Jogador /M(1),G(1), 3XL(1).jpg",
+    "sizes": [
+      "M",
+      "G"
+    ]
+  },
+  {
+    "id": 69,
+    "name": "CORINTHIANS",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_069.jpg",
+    "source": "Versão Jogador /P(1),M(1),G(2),GG(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 70,
+    "name": "FLAMENGO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_070.jpg",
+    "source": "Versão Torcedor /G(1), GG(1), 2XL(1).jpg",
+    "sizes": [
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 71,
+    "name": "SEVILLA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_071.jpg",
+    "source": "Versão Torcedor /G(2),2XL(1).jpg",
+    "sizes": [
+      "G",
+      "2XL"
+    ]
+  },
+  {
+    "id": 72,
+    "name": "ALEMANHA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_072.jpg",
+    "source": "Versão Torcedor /P(2),.jpg",
+    "sizes": [
+      "P"
+    ]
+  },
+  {
+    "id": 73,
+    "name": "BRASIL",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_073.jpg",
+    "source": "Versão Torcedor /P(2),GG(15), 2XL(16), 3xl(6).jpg",
+    "sizes": [
+      "P",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 74,
+    "name": "FLAMENGO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_074.jpg",
+    "source": "Versão Torcedor /G(1)(1).jpg",
+    "sizes": [
+      "G"
+    ]
+  },
+  {
+    "id": 75,
+    "name": "REAL MADRID",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_075.jpg",
+    "source": "Versão Torcedor /P(1),M(1),,G(2),GG(2).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 76,
+    "name": "PORTO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_076.jpg",
+    "source": "Versão Torcedor /G(1), GG(2), 3xl(1), 4xl(1).jpg",
+    "sizes": [
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 77,
+    "name": "INTERNAZIONALE",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_077.jpg",
+    "source": "Versão Torcedor /M(3), G(3), GG(2),.jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 78,
+    "name": "BORUSSIA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_078.jpg",
+    "source": "Versão Torcedor /M(1),G(1), GG(1), 2XL(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 79,
+    "name": "PALMEIRAS",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_079.jpg",
+    "source": "Versão Jogador /P(6), M(3).jpg",
+    "sizes": [
+      "P",
+      "M"
+    ]
+  },
+  {
+    "id": 80,
+    "name": "AJAX",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_080.jpg",
+    "source": "Versão Torcedor /P(1), GG (1)(1).jpg",
+    "sizes": [
+      "P",
+      "GG"
+    ]
+  },
+  {
+    "id": 81,
+    "name": "JUVENTUS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_081.jpg",
+    "source": "Versão Torcedor /M(1), GG(2).jpg",
+    "sizes": [
+      "M",
+      "GG"
+    ]
+  },
+  {
+    "id": 82,
+    "name": "PSG",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_082.jpg",
+    "source": "Versão Torcedor /P(1),M(2),G(3), GG(3), 2XL(2).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 83,
+    "name": "BAYERN MUNCHER",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_083.jpg",
+    "source": "Versão Torcedor /M(2), GG(1).jpg",
+    "sizes": [
+      "M",
+      "GG"
+    ]
+  },
+  {
+    "id": 84,
+    "name": "ARGENTINA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_084.jpg",
+    "source": "Versão Torcedor /P(1),M(2),G(3),GG(2)_.jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 85,
+    "name": "FLAMENGO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_085.jpg",
+    "source": "Versão Torcedor /GG(2).jpg",
+    "sizes": [
+      "GG"
+    ]
+  },
+  {
+    "id": 86,
+    "name": "PORTO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_086.jpg",
+    "source": "Versão Torcedor /2XL(1)(1).jpg",
+    "sizes": [
+      "2XL"
+    ]
+  },
+  {
+    "id": 87,
+    "name": "BAYER MUNCHER",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_087.jpg",
+    "source": "Versão Torcedor /P(1),M(1),GG(1), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 88,
+    "name": "BARCELONA",
+    "type": "torcedor",
+    "category": "europeus",
+    "image": "images/camisa_088.jpg",
+    "source": "Versão Torcedor /Barcelona_.jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 89,
+    "name": "BOCA JUNIOR",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_089.jpg",
+    "source": "Versão Torcedor /P(2), 2XL (1),4XL(1).jpg",
+    "sizes": [
+      "P",
+      "2XL"
+    ]
+  },
+  {
+    "id": 90,
+    "name": "ATLHETICO DE MADRID",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_090.jpg",
+    "source": "Versão Torcedor /G(1).jpg",
+    "sizes": [
+      "G"
+    ]
+  },
+  {
+    "id": 91,
+    "name": "ATLHETICO DE MADRID",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_091.jpg",
+    "source": "Versão Torcedor /P(1),M(3),G(2), GG(1), 2XL(2), 3Xl(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 92,
+    "name": "MANCHESTER CITY",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_092.jpg",
+    "source": "Versão Torcedor /M(1)(3).jpg",
+    "sizes": [
+      "M"
+    ]
+  },
+  {
+    "id": 93,
+    "name": "ITALIA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_093.jpg",
+    "source": "Versão Torcedor /P(1),G(1), GG(3).jpg",
+    "sizes": [
+      "P",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 94,
+    "name": "LYONS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_094.jpg",
+    "source": "Versão Torcedor / 2XL(1).jpg",
+    "sizes": [
+      "2XL"
+    ]
+  },
+  {
+    "id": 95,
+    "name": "ESPANHA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_095.jpg",
+    "source": "Versão Torcedor /M(2),G(2), 2XL(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "2XL"
+    ]
+  },
+  {
+    "id": 96,
+    "name": "CRUZEIRO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_096.jpg",
+    "source": "Versão Torcedor /M(1),G(1),GG(1), 2XL(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 97,
+    "name": "CORINTHIANS",
+    "type": "jogador",
+    "category": "outros",
+    "image": "images/camisa_097.jpg",
+    "source": "Versão Jogador /G, GG, 2XL.jpg",
+    "sizes": [
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 98,
+    "name": "MANCHESTER UNITED",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_098.jpg",
+    "source": "Versão Torcedor /P(1),M(1),G(1), GG(1), 2XL(1), 3Xl(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 99,
+    "name": "CORINTHIANS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_099.jpg",
+    "source": "Versão Torcedor /P(2).jpg",
+    "sizes": [
+      "P"
+    ]
+  },
+  {
+    "id": 100,
+    "name": "PALMEIRAS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_100.jpg",
+    "source": "Versão Torcedor /P(1), M(3),GG(2), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 101,
+    "name": "TOTTENHAM",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_101.jpg",
+    "source": "Versão Torcedor /M(1), G(2), GG(1), 3Xl(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 102,
+    "name": "CORINTHIANS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_102.jpg",
+    "source": "Versão Torcedor /2XL (1)(1).jpg",
+    "sizes": [
+      "2XL"
+    ]
+  },
+  {
+    "id": 103,
+    "name": "JUVENTUS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_103.jpg",
+    "source": "Versão Torcedor /P(1),GG(2).jpg",
+    "sizes": [
+      "P",
+      "GG"
+    ]
+  },
+  {
+    "id": 104,
+    "name": "FEYENOORD",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_104.jpg",
+    "source": "Versão Torcedor /P(1),M(1),G(1), GG(1), 2XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 105,
+    "name": "ATALANTA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_105.jpg",
+    "source": "Versão Torcedor /GG(1).jpg",
+    "sizes": [
+      "GG"
+    ]
+  },
+  {
+    "id": 106,
+    "name": "MANCHESTER CUTY",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_106.jpg",
+    "source": "Versão Torcedor /4XL(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 107,
+    "name": "PSG",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_107.jpg",
+    "source": "Versão Torcedor /G(1), GG(3), 2XL(4), 3Xl(1).jpg",
+    "sizes": [
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 108,
+    "name": "FLAMENGO",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_108.jpg",
+    "source": "Versão Torcedor /M(1),G(1), GG(1), 2XL(1),_.jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 109,
+    "name": "MILAN",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_109.jpg",
+    "source": "Versão Torcedor /M(1), G(2), GG(3), 2XL (2),3xl(1).jpg",
+    "sizes": [
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 110,
+    "name": "REAL MADRID",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_110.jpg",
+    "source": "Versão Torcedor /M(1).jpg",
+    "sizes": [
+      "M"
+    ]
+  },
+  {
+    "id": 111,
+    "name": "LYONS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_111.jpg",
+    "source": "Versão Torcedor /P(1),M(1),G(1),GG(1).jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ]
+  },
+  {
+    "id": 112,
+    "name": "VALENCIA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_112.jpg",
+    "source": "Versão Torcedor /Zero.jpg",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG",
+      "2XL"
+    ]
+  },
+  {
+    "id": 113,
+    "name": "PALMEIRAS",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_113.jpg",
+    "source": "Versão Torcedor /P(1), GG (1).jpg",
+    "sizes": [
+      "P",
+      "GG"
+    ]
+  },
+  {
+    "id": 114,
+    "name": "BARCELONA",
+    "type": "torcedor",
+    "category": "outros",
+    "image": "images/camisa_114.jpg",
+    "source": "Versão Torcedor /G(1), GG(2).jpg",
+    "sizes": [
+      "G",
+      "GG"
+    ]
+  }
+];</script><script src="script.js"></script></body></html>
