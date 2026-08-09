@@ -221,8 +221,7 @@ $("#checkout").addEventListener("click", () => {
     return;
   }
 
-  const phone = "5511914623625"; // TROQUE pelo WhatsApp da loja
-  const message = encodeURIComponent(
+const phone = "5511914623625"; // WhatsApp da loja  const message = encodeURIComponent(
     "Olá! Quero fazer um pedido na Império Camisas:\n\n" +
     cart.map((item) =>
       `• ${item.name} — ${typeLabel(item.type)} — tamanho ${item.size} — qtd. ${item.qty}`
