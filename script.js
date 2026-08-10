@@ -253,9 +253,6 @@ $("#checkout").addEventListener("click", () => {
 
   window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`, "_blank");
 });
-
-c
-
 renderProducts();
 renderCart();
 
