@@ -3,13 +3,61 @@
 <meta name="description" content="Império Camisas — catálogo de camisas de futebol em pronta entrega">
 <title>Império Camisas | Pronta Entrega</title><link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" href="favicon.png">
-</head><body>
+</head>
+<!-- MODAL DO PRODUTO -->
+<div id="productModal" class="product-modal">
+  <div class="product-modal-content">
+
+    <button class="modal-close" onclick="closeProductModal()">×</button>
+
+    <div class="product-modal-image">
+      <img id="modalProductImage" src="" alt="">
+    </div>
+
+    <div class="product-modal-info">
+      <span id="modalProductCategory" class="product-category"></span>
+
+      <h2 id="modalProductName"></h2>
+
+      <p id="modalProductModel"></p>
+
+      <h3>Tamanho</h3>
+
+      <div class="size-options">
+        <button onclick="selectSize(this, 'P')">P</button>
+        <button onclick="selectSize(this, 'M')">M</button>
+        <button onclick="selectSize(this, 'G')">G</button>
+        <button onclick="selectSize(this, 'GG')">GG</button>
+        <button onclick="selectSize(this, '2XL')">2XL</button>
+        <button onclick="selectSize(this, '3XL')">3XL</button>
+      </div>
+
+      <button id="addToCartButton" class="add-cart-btn">
+        ADICIONAR AO CARRINHO
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<body>
 <header><a class="logo" href="#inicio"><b>IC</b><span>IMPÉRIO<small>CAMISAS</small></span></a>
 <nav><a href="#catalogo">Catálogo</a><a href="#como">Como comprar</a></nav>
 <button id="openCart" class="cartBtn">Carrinho <i id="count">0</i></button></header>
 <section class="hero" id="inicio"><div><p>IMPÉRIO CAMISAS</p><h1>Seu time.<br><em>Sua camisa.</em></h1><strong>PRONTA ENTREGA <BR></BR> A PARTIR DE R$150,00</strong><a href="#catalogo">VER CATÁLOGO</a></div>
 <div class="heroBadge"><span>PRONTA</span><b>ENTREGA</b><small>Torcedor • Jogador</small></div></section>
 <section id="catalogo" class="catalog"><div class="top"><div><p>CATÁLOGO</p><h2>Escolha sua camisa</h2></div>
+
+<div class="searchBox">
+    <input 
+        type="text" 
+        id="search" 
+        placeholder="Pesquisar camisa ou tamanho..."
+        autocomplete="off"
+    >
+    <button type="button" id="clearSearch">×</button>
+</div>
+
 <div class="filters"><button class="active" data-cat="todos">Todos</button>
 <select id="type"><option value="todos">Torcedor + Jogador</option><option value="torcedor">Torcedor</option><option value="jogador">Jogador</option></select></div></div>
 <div id="grid" class="grid"></div></section>

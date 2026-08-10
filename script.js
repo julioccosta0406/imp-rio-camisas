@@ -1,5 +1,6 @@
 let filter = "todos";
 let type = "todos";
+let search = "";
 let cart = JSON.parse(localStorage.getItem("imperioCart") || "[]");
 let selected = null;
 
@@ -23,11 +24,25 @@ function typeLabel(value) {
 }
 
 function renderProducts() {
-  const products = PRODUCTS.filter((product) => {
+const products = PRODUCTS.filter((product) => {
     const categoryOK = filter === "todos" || product.category === filter;
     const typeOK = type === "todos" || product.type === type;
-    return categoryOK && typeOK;
-  });
+
+    const searchText = search.trim().toLowerCase();
+
+    const nameOK = product.name
+        .toLowerCase()
+        .includes(searchText);
+
+    const sizeOK = Array.isArray(product.sizes) &&
+        product.sizes.some(size =>
+            String(size).toLowerCase() === searchText
+        );
+
+    const searchOK = !searchText || nameOK || sizeOK;
+
+    return categoryOK && typeOK && searchOK;
+});
 
   if (!products.length) {
     grid.innerHTML = `<div class="empty">Nenhum modelo identificado nessa categoria.</div>`;
@@ -50,7 +65,14 @@ function renderProducts() {
         </div>
       </article>`;
   }).join("");
+  grid.querySelectorAll(".card .pic").forEach((pic, index) => {
+      pic.addEventListener("click", () => {
+          openProductModal(products[index]);
+      });
+  });
 }
+
+// Clique na foto para abrir o produto
 
 /* ---------- Seletor de tamanho ---------- */
 function openSizeModal(productId) {
@@ -221,15 +243,159 @@ $("#checkout").addEventListener("click", () => {
     return;
   }
 
-const phone = "5511914623625"; // WhatsApp da loja  const message = encodeURIComponent(
+  const phone = "5511914623625"; // TROQUE pelo WhatsApp da loja
+  const message = encodeURIComponent(
     "Olá! Quero fazer um pedido na Império Camisas:\n\n" +
     cart.map((item) =>
       `• ${item.name} — ${typeLabel(item.type)} — tamanho ${item.size} — qtd. ${item.qty}`
     ).join("\n")
   );
 
-  window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+  window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`, "_blank");
 });
 
 renderProducts();
 renderCart();
+
+const searchInput = document.querySelector("#search");
+const clearSearch = document.querySelector("#clearSearch");
+
+searchInput?.addEventListener("input", () => {
+    search = searchInput.value;
+    renderProducts();
+});
+
+clearSearch?.addEventListener("click", () => {
+    searchInput.value = "";
+    search = "";
+    renderProducts();
+    searchInput.focus();
+});
+
+let selectedProduct = null;
+let selectedSize = null;
+
+
+// ABRIR PRODUTO
+function openProductModal(product) {
+
+  selectedProduct = product;
+  selectedSize = null;
+
+  const modal = document.getElementById("productModal");
+
+  document.getElementById("modalProductImage").src = product.image;
+
+  document.getElementById("modalProductImage").alt = product.name;
+
+  document.getElementById("modalProductName").textContent =
+    product.name;
+
+  document.getElementById("modalProductModel").textContent =
+    "Modelo " + product.model;
+
+  document.getElementById("modalProductCategory").textContent =
+    product.category || "Camisas";
+
+  // Limpa tamanho selecionado
+  document
+    .querySelectorAll(".size-options button")
+    .forEach(button => {
+      button.classList.remove("selected");
+    });
+
+  modal.classList.add("active");
+
+  document.body.style.overflow = "hidden";
+}
+
+
+// FECHAR
+function closeProductModal() {
+
+  document
+    .getElementById("productModal")
+    .classList.remove("active");
+
+  document.body.style.overflow = "";
+
+  selectedProduct = null;
+  selectedSize = null;
+}
+
+
+// ESCOLHER TAMANHO
+function selectSize(button, size) {
+
+  document
+    .querySelectorAll(".size-options button")
+    .forEach(btn => {
+      btn.classList.remove("selected");
+    });
+
+  button.classList.add("selected");
+
+  selectedSize = size;
+}
+
+
+// ADICIONAR AO CARRINHO
+document
+  .getElementById("addToCartButton")
+  .addEventListener("click", function () {
+
+    if (!selectedProduct) {
+      return;
+    }
+
+    if (!selectedSize) {
+      alert("Escolha um tamanho antes de continuar.");
+      return;
+    }
+
+    const productToCart = {
+      ...selectedProduct,
+      size: selectedSize
+    };
+
+    // Pega carrinho atual
+    let cart =
+      JSON.parse(localStorage.getItem("imperioCart")) || [];
+
+    cart.push(productToCart);
+
+    localStorage.setItem(
+      "imperioCart",
+      JSON.stringify(cart)
+    );
+
+    closeProductModal();
+
+    alert(
+      selectedProduct.name +
+      " - tamanho " +
+      selectedSize +
+      " foi adicionado ao carrinho."
+    );
+  });
+
+
+// FECHAR CLICANDO FORA
+document
+  .getElementById("productModal")
+  .addEventListener("click", function (event) {
+
+    if (event.target === this) {
+      closeProductModal();
+    }
+  });
+
+
+// FECHAR COM ESC
+document.addEventListener("keydown", function(event) {
+
+  if (event.key === "Escape") {
+    closeProductModal();
+  }
+
+});
