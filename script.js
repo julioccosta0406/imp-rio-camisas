@@ -61,13 +61,22 @@ const sizesContainer = $("#sizes");
    ========================================================= */
 
 function getProductPrice(product) {
-  const price = Number(product?.price);
+    const price = Number(product?.price);
 
-  if (Number.isFinite(price) && price > 0) {
-    return price;
-  }
+    // Se a camisa estiver em promoção
+    if (
+        Array.isArray(PROMO_PRODUCTS) &&
+        PROMO_PRODUCTS.some(id => Number(id) === Number(product.id))
+    ) {
+        return 199.90;
+    }
 
-  return PRECO_PADRAO;
+    // Preço normal
+    if (Number.isFinite(price) && price > 0) {
+        return price;
+    }
+
+    return PRECO_PADRAO;
 }
 
 
@@ -164,9 +173,13 @@ function renderProducts() {
       const typeOK =
         type === "todos" || product.type === type;
 
-      const priceOK =
-        priceFilter === "todos" ||
-        Number(product.price || 0) <= Number(priceFilter);
+const effectivePrice = PROMO_PRODUCTS.includes(Number(product.id))
+  ? PROMO_PRICE
+  : getProductPrice(product);
+
+const priceOK =
+  priceFilter === "todos" ||
+  effectivePrice <= Number(priceFilter);
 
       const searchText = search.trim().toLowerCase();
 
