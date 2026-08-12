@@ -44,10 +44,34 @@
 <header><a class="logo" href="#inicio"><b>IC</b><span>IMPÉRIO<small>CAMISAS</small></span></a>
 <nav><a href="#catalogo">Catálogo</a><a href="#como">Como comprar</a></nav>
 <button id="openCart" class="cartBtn">Carrinho <i id="count">0</i></button></header>
-<section class="hero" id="inicio"><div><p>IMPÉRIO CAMISAS</p><h1>Seu time.<br><em>Sua camisa.</em></h1><strong>PRONTA ENTREGA <BR></BR> A PARTIR DE R$150,00</strong><a href="#catalogo">VER CATÁLOGO</a></div>
-<div class="heroBadge"><span>PRONTA</span><b>ENTREGA</b><small>Torcedor • Jogador</small></div></section>
-<section id="catalogo" class="catalog"><div class="top"><div><p>CATÁLOGO</p><h2>Escolha sua camisa</h2></div>
 
+<section class="hero" id="inicio"><div><p>IMPÉRIO CAMISAS</p><h1>Seu time.<br><em>Sua camisa.</em></h1><strong>PRONTA ENTREGA <BR></BR> A PARTIR DE R$150,00</strong><a href="index.html">VER CATÁLOGO</a></div>
+  <div class="heroBadge"><span>PRONTA</span><b>ENTREGA</b><small>Torcedor • Jogador</small></div></section>
+  <section id="catalogo"></section>
+  <section class="promo-banner">
+    <div class="promo-content">
+      <span class="promo-tag"> OFERTA ESPECIAL</span>
+  
+      <h2>QUEIMA DE ESTOQUE </BR> CAMISAS MODELO JOGADOR <BR> CORINTHIANS</h2>
+  
+      <div class="promo-price">
+        <span class="old-price">R$ 209,90</span>
+        <span class="new-price">R$ 180,00</span>
+      </div>
+  
+      <p>
+        Camisas selecionadas em promoção • Pronta entrega
+      </p>
+  
+      <a href="#catalogo" class="promo-btn">
+        VER OFERTAS
+      </a>
+    </div>
+
+
+  </section>
+  <section id="catalogo" class="catalog"><div class="top"><div><p>CATÁLOGO</p><h2>Escolha sua camisa</h2></div>
+    
 <div class="searchBox">
     <input 
         type="text" 
@@ -58,8 +82,23 @@
     <button type="button" id="clearSearch">×</button>
 </div>
 
-<div class="filters"><button class="active" data-cat="todos">Todos</button>
-<select id="type"><option value="todos">Torcedor + Jogador</option><option value="torcedor">Torcedor</option><option value="jogador">Jogador</option></select></div></div>
+<div class="filters">
+    <button class="active" data-cat="todos">Todos</button>
+
+    <select id="type">
+        <option value="todos">Torcedor + Jogador</option>
+        <option value="torcedor">Torcedor</option>
+        <option value="jogador">Jogador</option>
+    </select>
+
+    <select id="priceFilter">
+        <option value="todos">Todos os preços</option>
+        <option value="150">Até R$ 150</option>
+        <option value="200">Até R$ 200</option>
+        <option value="250">Até R$ 250</option>
+        <option value="300">Até R$ 300</option>
+    </select>
+</div></div>
 <div id="grid" class="grid"></div></section>
 <section id="como" class="how"><p>COMO COMPRAR</p><h2>Simples e direto.</h2><div class="steps"><article><b>01</b><h3>Escolha</h3><span>Selecione o modelo e tamanho.</span></article><article><b>02</b><h3>Adicione</h3><span>Monte seu carrinho.</span></article><article><b>03</b><h3>Finalize</h3><span>Envie o pedido pelo WhatsApp.</span></article></div></section>
 <footer><div class="logo"><b>IC</b><span>IMPÉRIO<small>CAMISAS</small></span></div><span>Estilo que veste. Paixão que representa.</span></footer>
@@ -72,6 +111,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_001.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(2),),2XL(1).jpg",
     "sizes": [
       "P",
@@ -85,6 +125,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_002.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),G(2).jpg",
     "sizes": [
       "P",
@@ -113,6 +154,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_004.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /G(1)(2).jpg",
     "sizes": [
       "G"
@@ -124,6 +166,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_005.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),G(1)GG(2), 2XL(1).jpg",
     "sizes": [
       "P",
@@ -139,6 +182,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_006.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1)(1).jpg",
     "sizes": [
       "P"
@@ -165,6 +209,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_008.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(1), 2XL(1).jpg",
     "sizes": [
       "P",
@@ -191,6 +236,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_010.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /M(1),GG(1), 2XL (1).jpg",
     "sizes": [
       "M",
@@ -204,6 +250,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_011.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /M(2),G(2),GG(1).jpg",
     "sizes": [
       "M",
@@ -282,6 +329,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_017.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1), 2XL (1).jpg",
     "sizes": [
       "P",
@@ -294,6 +342,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_018.png",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1),M((1), 2XL(1).png",
     "sizes": [
       "P",
@@ -307,6 +356,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_019.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1),GG(1), 2XL (1).jpg",
     "sizes": [
       "P",
@@ -320,6 +370,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_020.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /M(1),G(2), GG(2).jpg",
     "sizes": [
       "M",
@@ -333,6 +384,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_021.jpg",
+        "price": 149.90,
     "source": "Versão Torcedor / G (3), GG (2), 2XL(1), 3Xl(1).jpg",
     "sizes": [
       "G",
@@ -360,6 +412,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_023.png",
+        "price": 179.90,
     "source": "Versão Torcedor /M(2),G(1), GG(2).png",
     "sizes": [
       "M",
@@ -373,6 +426,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_024.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1), M(1), G(4), GG(1).jpg",
     "sizes": [
       "P",
@@ -387,6 +441,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_025.png",
+        "price": 179.90,
     "source": "Versão Torcedor /,G(1), GG(1).png",
     "sizes": [
       "G",
@@ -412,6 +467,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_027.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /2XL (1).jpg",
     "sizes": [
       "2XL"
@@ -423,6 +479,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_028.jpg",
+    "price": 179.90,
     "source": "Versão Torcedor /P(1),GG(2), 2XL(1).jpg",
     "sizes": [
       "P",
@@ -436,6 +493,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_029.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /2XL(1).jpg",
     "sizes": [
       "2XL"
@@ -447,6 +505,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_030.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(1), M(2), G(3), GG(2).jpg",
     "sizes": [
       "P",
@@ -461,6 +520,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_031.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /G(1), GG(1), 2XL(1)(1).jpg",
     "sizes": [
       "G",
@@ -474,6 +534,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_032.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /,M(2), G(3), GG(2), 2XL(1), 3xl(1).jpg",
     "sizes": [
       "M",
@@ -488,6 +549,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_033.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(1),G(1), GG(1).jpg",
     "sizes": [
       "M",
@@ -501,6 +563,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_034.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(1)(2).jpg",
     "sizes": [
       "M"
@@ -510,6 +573,7 @@
     "id": 35,
     "name": "SÃO PAULO",
     "type": "torcedor",
+        "price": 179.90,
     "category": "outros",
     "image": "images/camisa_035.jpg",
     "source": "Versão Torcedor /GG(1)(1).jpg",
@@ -521,6 +585,7 @@
     "id": 36,
     "name": "INTERNAZIONALE",
     "type": "torcedor",
+        "price": 179.90,
     "category": "outros",
     "image": "images/camisa_036.jpg",
     "source": "Versão Torcedor /P(1),M(3),G(3), GG(5), 2XL(2),3xl(1).jpg",
@@ -536,6 +601,7 @@
     "id": 37,
     "name": "REAL MADRID",
     "type": "torcedor",
+        "price": 179.90,
     "category": "outros",
     "image": "images/camisa_037.jpg",
     "source": "Versão Torcedor /P(1).jpg",
@@ -547,6 +613,7 @@
     "id": 38,
     "name": "NAPOLI",
     "type": "torcedor",
+        "price": 179.90,
     "category": "outros",
     "image": "images/camisa_038.jpg",
     "source": "Versão Torcedor /P(1),M(2), G(3), GG(1), 2XL(1), 3Xl(1).jpg",
@@ -562,6 +629,7 @@
     "id": 39,
     "name": "MILAN",
     "type": "torcedor",
+        "price": 179.90,
     "category": "outros",
     "image": "images/camisa_039.jpg",
     "source": "Versão Torcedor /M(1),G(2),GG(2), 2XL(1).jpg",
@@ -576,6 +644,7 @@
     "id": 40,
     "name": "SPORTING",
     "type": "torcedor",
+        "price": 179.90,
     "category": "outros",
     "image": "images/camisa_040.jpg",
     "source": "Versão Torcedor /GG(1), 2XL(1).jpg",
@@ -588,6 +657,7 @@
     "id": 41,
     "name": "ASTON VILLA",
     "type": "torcedor",
+        "price": 179.90,
     "category": "outros",
     "image": "images/camisa_041.jpg",
     "source": "Versão Torcedor /M(1),G(1)(1).jpg",
@@ -611,6 +681,7 @@
     "id": 43,
     "name": "ESCOCIA",
     "type": "torcedor",
+        "price": 179.90,
     "category": "outros",
     "image": "images/camisa_043.png",
     "source": "Versão Torcedor /P(1),2XL(1).png",
@@ -623,6 +694,7 @@
     "id": 44,
     "name": "PORTUGAL",
     "type": "torcedor",
+        "price": 179.90,
     "category": "selecoes",
     "image": "images/camisa_044.jpg",
     "source": "Versão Torcedor /Portugal_.jpg",
@@ -640,6 +712,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_045.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(2),G(1),GG(1), 2XL (1).jpg",
     "sizes": [
       "M",
@@ -654,6 +727,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_046.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(1), GG(1), 2XL(1).jpg",
     "sizes": [
       "M",
@@ -667,6 +741,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_047.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(1), 2XL(1), 3Xl(1).jpg",
     "sizes": [
       "P",
@@ -679,6 +754,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_048.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /,G(2),GG(3), 2XL(1).jpg",
     "sizes": [
       "G",
@@ -692,6 +768,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_049.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),G(2),GG(2).jpg",
     "sizes": [
       "P",
@@ -706,6 +783,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_050.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(2),G(3), GG(3).jpg",
     "sizes": [
       "P",
@@ -719,6 +797,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_051.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),G(1), GG(1), 2XL(1)(1).jpg",
     "sizes": [
       "P",
@@ -734,6 +813,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_052.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /,G(3),GG(2), 2XL(1), 3XL (1).jpg",
     "sizes": [
       "G",
@@ -747,6 +827,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_053.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(1),2Xl(2).jpg",
     "sizes": [
       "M",
@@ -771,6 +852,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_055.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(1),GG(1), 3Xl(1).jpg",
     "sizes": [
       "M",
@@ -783,6 +865,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_056.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1), GG(1), 2XL(1).jpg",
     "sizes": [
       "P",
@@ -797,6 +880,7 @@
     "type": "torcedor",
     "category": "brasileiros",
     "image": "images/camisa_057.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /Flamengo_.jpg",
     "sizes": [
       "P",
@@ -812,6 +896,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_058.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(1),G(1).jpg",
     "sizes": [
       "M",
@@ -824,6 +909,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_059.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(1),G(1), GG(2), 2XL(1).jpg",
     "sizes": [
       "M",
@@ -838,6 +924,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_060.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor / 2XL(1(, 3Xl(1).jpg",
     "sizes": [
       "2XL"
@@ -849,6 +936,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_061.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(1)(1).jpg",
     "sizes": [
       "M"
@@ -860,6 +948,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_062.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /M(2),GG(1).jpg",
     "sizes": [
       "M",
@@ -886,6 +975,7 @@
     "type": "torcedor",
     "category": "europeus",
     "image": "images/camisa_064.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /Manchester city_.jpg",
     "sizes": [
       "P",
@@ -901,6 +991,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_065.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /G(4), 3XL(1).jpg",
     "sizes": [
       "G"
@@ -912,6 +1003,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_066.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(1), 2XL(2).jpg",
     "sizes": [
       "P",
@@ -963,6 +1055,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_070.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /G(1), GG(1), 2XL(1).jpg",
     "sizes": [
       "G",
@@ -976,6 +1069,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_071.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /G(2),2XL(1).jpg",
     "sizes": [
       "G",
@@ -987,6 +1081,7 @@
     "name": "ALEMANHA",
     "type": "torcedor",
     "category": "outros",
+        "price": 179.90,
     "image": "images/camisa_072.jpg",
     "source": "Versão Torcedor /P(2),.jpg",
     "sizes": [
@@ -999,6 +1094,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_073.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /P(2),GG(15), 2XL(16), 3xl(6).jpg",
     "sizes": [
       "P",
@@ -1012,6 +1108,7 @@
     "type": "torcedor",
     "category": "outros",
     "image": "images/camisa_074.jpg",
+        "price": 179.90,
     "source": "Versão Torcedor /G(1)(1).jpg",
     "sizes": [
       "G"
@@ -1022,7 +1119,7 @@
     "name": "REAL MADRID",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_075.jpg",
+    "image": "images/camisa_075.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),,G(2),GG(2).jpg",
     "sizes": [
       "P",
@@ -1036,7 +1133,7 @@
     "name": "PORTO",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_076.jpg",
+    "image": "images/camisa_076.jpg",    "price": 179.90,
     "source": "Versão Torcedor /G(1), GG(2), 3xl(1), 4xl(1).jpg",
     "sizes": [
       "G",
@@ -1048,7 +1145,7 @@
     "name": "INTERNAZIONALE",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_077.jpg",
+    "image": "images/camisa_077.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(3), G(3), GG(2),.jpg",
     "sizes": [
       "M",
@@ -1061,7 +1158,7 @@
     "name": "BORUSSIA",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_078.jpg",
+    "image": "images/camisa_078.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(1),G(1), GG(1), 2XL(1).jpg",
     "sizes": [
       "M",
@@ -1087,7 +1184,7 @@
     "name": "AJAX",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_080.jpg",
+    "image": "images/camisa_080.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1), GG (1)(1).jpg",
     "sizes": [
       "P",
@@ -1099,7 +1196,7 @@
     "name": "JUVENTUS",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_081.jpg",
+    "image": "images/camisa_081.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(1), GG(2).jpg",
     "sizes": [
       "M",
@@ -1111,7 +1208,7 @@
     "name": "PSG",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_082.jpg",
+    "image": "images/camisa_082.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(2),G(3), GG(3), 2XL(2).jpg",
     "sizes": [
       "P",
@@ -1126,7 +1223,7 @@
     "name": "BAYERN MUNCHER",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_083.jpg",
+    "image": "images/camisa_083.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(2), GG(1).jpg",
     "sizes": [
       "M",
@@ -1138,7 +1235,7 @@
     "name": "ARGENTINA",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_084.jpg",
+    "image": "images/camisa_084.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(2),G(3),GG(2)_.jpg",
     "sizes": [
       "P",
@@ -1152,7 +1249,7 @@
     "name": "FLAMENGO",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_085.jpg",
+    "image": "images/camisa_085.jpg",    "price": 179.90,
     "source": "Versão Torcedor /GG(2).jpg",
     "sizes": [
       "GG"
@@ -1163,7 +1260,7 @@
     "name": "PORTO",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_086.jpg",
+    "image": "images/camisa_086.jpg",    "price": 179.90,
     "source": "Versão Torcedor /2XL(1)(1).jpg",
     "sizes": [
       "2XL"
@@ -1174,7 +1271,7 @@
     "name": "BAYER MUNCHER",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_087.jpg",
+    "image": "images/camisa_087.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),GG(1), 2XL(1).jpg",
     "sizes": [
       "P",
@@ -1188,7 +1285,7 @@
     "name": "BARCELONA",
     "type": "torcedor",
     "category": "europeus",
-    "image": "images/camisa_088.jpg",
+    "image": "images/camisa_088.jpg",    "price": 179.90,
     "source": "Versão Torcedor /Barcelona_.jpg",
     "sizes": [
       "P",
@@ -1203,7 +1300,7 @@
     "name": "BOCA JUNIOR",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_089.jpg",
+    "image": "images/camisa_089.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(2), 2XL (1),4XL(1).jpg",
     "sizes": [
       "P",
@@ -1215,7 +1312,7 @@
     "name": "ATLHETICO DE MADRID",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_090.jpg",
+    "image": "images/camisa_090.jpg",    "price": 179.90,
     "source": "Versão Torcedor /G(1).jpg",
     "sizes": [
       "G"
@@ -1226,7 +1323,7 @@
     "name": "ATLHETICO DE MADRID",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_091.jpg",
+    "image": "images/camisa_091.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(3),G(2), GG(1), 2XL(2), 3Xl(1).jpg",
     "sizes": [
       "P",
@@ -1240,7 +1337,7 @@
     "id": 92,
     "name": "MANCHESTER CITY",
     "type": "torcedor",
-    "category": "outros",
+    "category": "outros",    "price": 179.90,
     "image": "images/camisa_092.jpg",
     "source": "Versão Torcedor /M(1)(3).jpg",
     "sizes": [
@@ -1252,7 +1349,7 @@
     "name": "ITALIA",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_093.jpg",
+    "image": "images/camisa_093.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),G(1), GG(3).jpg",
     "sizes": [
       "P",
@@ -1265,7 +1362,7 @@
     "name": "LYONS",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_094.jpg",
+    "image": "images/camisa_094.jpg",    "price": 179.90,
     "source": "Versão Torcedor / 2XL(1).jpg",
     "sizes": [
       "2XL"
@@ -1276,7 +1373,7 @@
     "name": "ESPANHA",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_095.jpg",
+    "image": "images/camisa_095.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(2),G(2), 2XL(1).jpg",
     "sizes": [
       "M",
@@ -1289,7 +1386,7 @@
     "name": "CRUZEIRO",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_096.jpg",
+    "image": "images/camisa_096.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(1),G(1),GG(1), 2XL(1).jpg",
     "sizes": [
       "M",
@@ -1316,7 +1413,7 @@
     "name": "MANCHESTER UNITED",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_098.jpg",
+    "image": "images/camisa_098.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),G(1), GG(1), 2XL(1), 3Xl(1).jpg",
     "sizes": [
       "P",
@@ -1331,7 +1428,7 @@
     "name": "CORINTHIANS",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_099.jpg",
+    "image": "images/camisa_099.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(2).jpg",
     "sizes": [
       "P"
@@ -1342,7 +1439,7 @@
     "name": "PALMEIRAS",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_100.jpg",
+    "image": "images/camisa_100.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1), M(3),GG(2), 2XL(1).jpg",
     "sizes": [
       "P",
@@ -1356,7 +1453,7 @@
     "name": "TOTTENHAM",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_101.jpg",
+    "image": "images/camisa_101.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(1), G(2), GG(1), 3Xl(1).jpg",
     "sizes": [
       "M",
@@ -1369,7 +1466,7 @@
     "name": "CORINTHIANS",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_102.jpg",
+    "image": "images/camisa_102.jpg",    "price": 179.90,
     "source": "Versão Torcedor /2XL (1)(1).jpg",
     "sizes": [
       "2XL"
@@ -1380,7 +1477,7 @@
     "name": "JUVENTUS",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_103.jpg",
+    "image": "images/camisa_103.jpg",    "price": 169.90,
     "source": "Versão Torcedor /P(1),GG(2).jpg",
     "sizes": [
       "P",
@@ -1392,7 +1489,7 @@
     "name": "FEYENOORD",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_104.jpg",
+    "image": "images/camisa_104.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),G(1), GG(1), 2XL(1).jpg",
     "sizes": [
       "P",
@@ -1407,7 +1504,7 @@
     "name": "ATALANTA",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_105.jpg",
+    "image": "images/camisa_105.jpg",    "price": 179.90,
     "source": "Versão Torcedor /GG(1).jpg",
     "sizes": [
       "GG"
@@ -1418,7 +1515,7 @@
     "name": "MANCHESTER CUTY",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_106.jpg",
+    "image": "images/camisa_106.jpg",    "price": 179.90,
     "source": "Versão Torcedor /4XL(1).jpg",
     "sizes": [
       "P",
@@ -1433,7 +1530,7 @@
     "name": "PSG",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_107.jpg",
+    "image": "images/camisa_107.jpg",    "price": 149.90,
     "source": "Versão Torcedor /G(1), GG(3), 2XL(4), 3Xl(1).jpg",
     "sizes": [
       "G",
@@ -1446,7 +1543,7 @@
     "name": "FLAMENGO",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_108.jpg",
+    "image": "images/camisa_108.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(1),G(1), GG(1), 2XL(1),_.jpg",
     "sizes": [
       "M",
@@ -1460,7 +1557,7 @@
     "name": "MILAN",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_109.jpg",
+    "image": "images/camisa_109.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(1), G(2), GG(3), 2XL (2),3xl(1).jpg",
     "sizes": [
       "M",
@@ -1474,7 +1571,7 @@
     "name": "REAL MADRID",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_110.jpg",
+    "image": "images/camisa_110.jpg",    "price": 179.90,
     "source": "Versão Torcedor /M(1).jpg",
     "sizes": [
       "M"
@@ -1485,7 +1582,7 @@
     "name": "LYONS",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_111.jpg",
+    "image": "images/camisa_111.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1),M(1),G(1),GG(1).jpg",
     "sizes": [
       "P",
@@ -1499,7 +1596,7 @@
     "name": "VALENCIA",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_112.jpg",
+    "image": "images/camisa_112.jpg",    "price": 179.90,
     "source": "Versão Torcedor /Zero.jpg",
     "sizes": [
       "P",
@@ -1514,7 +1611,7 @@
     "name": "PALMEIRAS",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_113.jpg",
+    "image": "images/camisa_113.jpg",    "price": 179.90,
     "source": "Versão Torcedor /P(1), GG (1).jpg",
     "sizes": [
       "P",
@@ -1526,7 +1623,7 @@
     "name": "BARCELONA",
     "type": "torcedor",
     "category": "outros",
-    "image": "images/camisa_114.jpg",
+    "image": "images/camisa_114.jpg",    "price": 179.90,
     "source": "Versão Torcedor /G(1), GG(2).jpg",
     "sizes": [
       "G",

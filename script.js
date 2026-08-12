@@ -1,400 +1,1328 @@
+const PROMO_PRODUCTS = [
+  42,
+  68,
+  69,
+  97,
+];
+const PROMO_PRICE = 180.00;
+
+PRODUCTS.forEach((product) => {
+  if (product.price === undefined || product.price === null) {
+    product.price = 209.90;
+  }
+});
+/* =========================================================
+   IMPÉRIO CAMISAS
+   SCRIPT PRINCIPAL
+   ========================================================= */
+
+/* ---------- CONFIGURAÇÕES ---------- */
+
+// Preço padrão.
+// Depois você pode colocar preços individuais no index.html
+// usando: "price": 199.90
+const PRECO_PADRAO = 199.90;
+
+// WhatsApp da loja
+const WHATSAPP_NUMBER = "5511914623625";
+
+
+/* ---------- ESTADO DO SITE ---------- */
+let promoOnly = false;
 let filter = "todos";
 let type = "todos";
 let search = "";
-let cart = JSON.parse(localStorage.getItem("imperioCart") || "[]");
+let priceFilter = "todos";
+
+let cart = JSON.parse(
+  localStorage.getItem("imperioCart") || "[]"
+);
+
 let selected = null;
 
+
+/* ---------- ELEMENTOS ---------- */
+
 const $ = (selector) => document.querySelector(selector);
+
 const grid = $("#grid");
+const cartElement = $("#cart");
+const cartItems = $("#cartItems");
+const cartCount = $("#count");
+const shade = $("#shade");
+
+const modal = $("#modal");
+const modalName = $("#mName");
+const sizesContainer = $("#sizes");
+
+
+/* =========================================================
+   FUNÇÕES DE PREÇO
+   ========================================================= */
+
+function getProductPrice(product) {
+  const price = Number(product?.price);
+
+  if (Number.isFinite(price) && price > 0) {
+    return price;
+  }
+
+  return PRECO_PADRAO;
+}
+
+
+function formatPrice(value) {
+  return Number(value || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
+
+
+/* =========================================================
+   LOCAL STORAGE
+   ========================================================= */
 
 function saveCart() {
-  localStorage.setItem("imperioCart", JSON.stringify(cart));
+  localStorage.setItem(
+    "imperioCart",
+    JSON.stringify(cart)
+  );
+
   renderCart();
 }
 
+
+/* =========================================================
+   CATEGORIA E TIPO
+   ========================================================= */
+
 function labelCategory(category) {
-  if (category === "brasileiros") return "🇧🇷 Brasileiro";
-  if (category === "europeus") return "🇪🇺 Europeu";
-  if (category === "selecoes") return "🌎 Seleção";
+
+  if (category === "brasileiros") {
+    return "🇧🇷 Brasileiro";
+  }
+
+  if (category === "europeus") {
+    return "🇪🇺 Europeu";
+  }
+
+  if (category === "selecoes") {
+    return "🌎 Seleção";
+  }
+
   return "Catálogo";
 }
 
+
 function typeLabel(value) {
-  return value === "jogador" ? "Jogador" : "Torcedor";
+  return value === "jogador"
+    ? "Jogador"
+    : "Torcedor";
 }
 
+
+
+const promoButton = document.querySelector(".promo-btn");
+
+if (promoButton) {
+  promoButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    promoOnly = true;
+
+    renderProducts();
+
+    document
+      .querySelector("#catalogo")
+      ?.scrollIntoView({
+        behavior: "smooth"
+      });
+  });
+}
+// Preenche somente os produtos que ainda não possuem preço
+/* =========================================================
+   PRODUTOS
+   ========================================================= */
+
 function renderProducts() {
-const products = PRODUCTS.filter((product) => {
-    const categoryOK = filter === "todos" || product.category === filter;
-    const typeOK = type === "todos" || product.type === type;
+ const products = PRODUCTS
+  .filter((product) => {
 
-    const searchText = search.trim().toLowerCase();
+    if (
+      promoOnly &&
+      !PROMO_PRODUCTS.includes(product.id)
+    ) {
+      return false;
+    }
 
-    const nameOK = product.name
-        .toLowerCase()
-        .includes(searchText);
+    // resto dos seus filtros...
 
-    const sizeOK = Array.isArray(product.sizes) &&
+      const categoryOK =
+        filter === "todos" || product.category === filter;
+
+      const typeOK =
+        type === "todos" || product.type === type;
+
+      const priceOK =
+        priceFilter === "todos" ||
+        Number(product.price || 0) <= Number(priceFilter);
+
+      const searchText = search.trim().toLowerCase();
+
+      const nameOK =
+        product.name
+          .toLowerCase()
+          .includes(searchText);
+
+      const sizeOK =
+        Array.isArray(product.sizes) &&
         product.sizes.some(size =>
-            String(size).toLowerCase() === searchText
+          String(size).toLowerCase() === searchText
         );
 
-    const searchOK = !searchText || nameOK || sizeOK;
+      const searchOK =
+        !searchText || nameOK || sizeOK;
 
-    return categoryOK && typeOK && searchOK;
-});
+      return (
+        categoryOK &&
+        typeOK &&
+        priceOK &&
+        searchOK
+      );
+    })
+
+    // ORDEM ALFABÉTICA
+    .sort((a, b) =>
+      a.name.localeCompare(
+        b.name,
+        "pt-BR",
+        { sensitivity: "base" }
+      )
+    );
 
   if (!products.length) {
-    grid.innerHTML = `<div class="empty">Nenhum modelo identificado nessa categoria.</div>`;
+    grid.innerHTML = `
+      <div class="empty">
+        Nenhuma camisa encontrada com esses filtros.
+      </div>
+    `;
     return;
   }
 
   grid.innerHTML = products.map((product) => {
-    const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+
+    const sizes =
+      Array.isArray(product.sizes)
+        ? product.sizes
+        : [];
+
+    const price =
+      Number(product.price || 0).toLocaleString(
+        "pt-BR",
+        {
+          style: "currency",
+          currency: "BRL"
+        }
+      );
+
+      const isPromo = PROMO_PRODUCTS.includes(product.id);
 
     return `
       <article class="card">
+
         <div class="pic">
-          <img src="${product.image}" alt="${product.name}" loading="lazy">
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+            loading="lazy"
+          >
         </div>
+
         <div class="cardInfo">
-          <span class="tag">${labelCategory(product.category)} • ${typeLabel(product.type)}</span>
+
+          <span class="tag">
+            ${labelCategory(product.category)}
+            •
+            ${typeLabel(product.type)}
+          </span>
+
           <h3>${product.name}</h3>
-          <div class="sizesTxt">Tamanhos disponíveis: ${sizes.length ? sizes.join(" • ") : "Esgotado"}</div>
-          <button type="button" class="add" data-product-id="${product.id}" ${sizes.length ? "" : "disabled"}>${sizes.length ? "ESCOLHER TAMANHO" : "ESGOTADO"}</button>
+
+          <div class="price">
+            ${price}
+          </div>
+
+          <div class="sizesTxt">
+            Tamanhos disponíveis:
+            ${
+              sizes.length
+                ? sizes.join(" • ")
+                : "Esgotado"
+            }
+          </div>
+
+          <button
+            type="button"
+            class="add"
+            data-product-id="${product.id}"
+            ${sizes.length ? "" : "disabled"}
+          >
+            ${
+              sizes.length
+                ? "ESCOLHER TAMANHO"
+                : "ESGOTADO"
+            }
+          </button>
+
         </div>
-      </article>`;
+      </article>
+    `;
   }).join("");
-  grid.querySelectorAll(".card .pic").forEach((pic, index) => {
+
+  grid
+    .querySelectorAll(".card .pic")
+    .forEach((pic, index) => {
       pic.addEventListener("click", () => {
-          openProductModal(products[index]);
+        openSizeModal(products[index].id);
       });
+    });
+
+
+
+  if (!products.length) {
+
+    grid.innerHTML = `
+      <div class="empty">
+        Nenhum modelo encontrado.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  grid.innerHTML = products
+    .map((product) => {
+
+      const sizes =
+        Array.isArray(product.sizes)
+          ? product.sizes
+          : [];
+
+      const price =
+        getProductPrice(product);
+
+
+      return `
+        <article class="card">
+
+          <div class="pic">
+            <img
+              src="${product.image}"
+              alt="${product.name}"
+              loading="lazy"
+            >
+          </div>
+
+          <div class="cardInfo">
+
+            <span class="tag">
+              ${labelCategory(product.category)}
+              •
+              ${typeLabel(product.type)}
+            </span>
+
+            <h3>
+              ${product.name}
+            </h3>
+
+<div class="price">
+  ${
+    PROMO_PRODUCTS.includes(Number(product.id))
+      ? `
+        <span class="old-price">${formatPrice(price)}</span>
+        <span class="promo-price">${formatPrice(PROMO_PRICE)}</span>
+      `
+      : formatPrice(price)
+  }
+</div> 
+
+            <div class="sizesTxt">
+              Tamanhos disponíveis:
+              ${
+                sizes.length
+                  ? sizes.join(" • ")
+                  : "Esgotado"
+              }
+            </div>
+
+            <button
+              type="button"
+              class="add"
+              data-product-id="${product.id}"
+              ${sizes.length ? "" : "disabled"}
+            >
+              ${
+                sizes.length
+                  ? "ESCOLHER TAMANHO"
+                  : "ESGOTADO"
+              }
+            </button>
+
+          </div>
+
+        </article>
+      `;
+    })
+    .join("");
+
+
+  /* Clique na foto */
+
+  grid
+    .querySelectorAll(".card .pic")
+    .forEach((pic, index) => {
+
+      pic.addEventListener("click", () => {
+
+        openSizeModal(
+          products[index].id
+        );
+
+      });
+
+    });
+}
+
+
+/* =========================================================
+   MODAL DE TAMANHO
+   ========================================================= */
+
+function openSizeModal(productId) {
+
+  selected = PRODUCTS.find(
+    (product) =>
+      Number(product.id) === Number(productId)
+  );
+
+  if (!selected) {
+    return;
+  }
+
+
+  modalName.textContent =
+    selected.name;
+
+
+  const sizes =
+    Array.isArray(selected.sizes)
+      ? selected.sizes
+      : [];
+
+
+  if (!sizes.length) {
+
+    sizesContainer.innerHTML = `
+      <div class="noSizes">
+        Nenhum tamanho disponível.
+      </div>
+    `;
+
+  } else {
+
+    sizesContainer.innerHTML =
+      sizes
+        .map((size) => {
+
+          const safeSize =
+            String(size)
+              .replace(/"/g, "&quot;");
+
+          return `
+            <button
+              type="button"
+              class="sizeButton"
+              data-size="${safeSize}"
+            >
+              ${size}
+            </button>
+          `;
+
+        })
+        .join("");
+
+  }
+
+
+  modal.classList.add("on");
+
+  document.body.classList.add(
+    "modalOpen"
+  );
+
+
+  requestAnimationFrame(() => {
+
+    const firstButton =
+      $("#sizes button");
+
+    if (firstButton) {
+      firstButton.focus();
+    }
+
   });
 }
 
-// Clique na foto para abrir o produto
-
-/* ---------- Seletor de tamanho ---------- */
-function openSizeModal(productId) {
-  selected = PRODUCTS.find((product) => Number(product.id) === Number(productId));
-  if (!selected) return;
-
-  $("#mName").textContent = selected.name;
-
-  const sizes = Array.isArray(selected.sizes) ? selected.sizes : [];
-  $("#sizes").innerHTML = sizes.length
-    ? sizes.map((size) => `
-      <button type="button" class="sizeButton" data-size="${String(size).replace(/"/g, '&quot;')}">
-        ${size}
-      </button>
-    `).join("")
-    : `<div class="noSizes">Nenhum tamanho disponível.</div>`;
-
-  $("#modal").classList.add("on");
-  document.body.classList.add("modalOpen");
-  requestAnimationFrame(() => $("#sizes button")?.focus());
-}
 
 function closeSizeModal() {
-  $("#modal").classList.remove("on");
-  document.body.classList.remove("modalOpen");
+
+  modal.classList.remove("on");
+
+  document.body.classList.remove(
+    "modalOpen"
+  );
+
   selected = null;
 }
 
+
+/* =========================================================
+   ADICIONAR AO CARRINHO
+   ========================================================= */
+
 function addToCart(productId, size) {
-  const product = PRODUCTS.find((item) => Number(item.id) === Number(productId));
-  if (!product) return;
 
-  const existing = cart.find(
-    (item) => Number(item.id) === Number(productId) && item.size === size
-  );
+  const product =
+    PRODUCTS.find(
+      (item) =>
+        Number(item.id) ===
+        Number(productId)
+    );
 
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({
-      id: product.id,
-      name: product.name,
-      type: product.type,
-      size,
-      qty: 1
-    });
+
+  if (!product) {
+    return;
   }
 
+
+  const price =
+    getProductPrice(product);
+const isPromo = PROMO_PRODUCTS.includes(Number(product.id));
+
+const displayPrice = isPromo
+  ? PROMO_PRICE
+  : price;
+
+  /*
+    Verifica se já existe
+    o mesmo produto + tamanho
+  */
+
+  const existing =
+    cart.find(
+      (item) =>
+        Number(item.id) ===
+          Number(productId) &&
+        item.size === size
+    );
+
+
+  if (existing) {
+
+    existing.qty += 1;
+
+    /*
+      Garante que carrinhos antigos
+      também recebam preço.
+    */
+
+    existing.price =
+      getProductPrice(existing);
+
+  } else {
+
+    cart.push({
+
+      id: product.id,
+
+      name: product.name,
+
+      type: product.type,
+
+      size: size,
+
+      price: price,
+
+      qty: 1
+
+    });
+
+  }
+
+
   saveCart();
+
   closeSizeModal();
+
   openCart();
 }
 
-/* ---------- Carrinho ---------- */
+
+/* =========================================================
+   TOTAL DO CARRINHO
+   ========================================================= */
+
+function getCartTotal() {
+
+  return cart.reduce(
+    (total, item) => {
+
+      const price =
+        Number(item.price) ||
+        PRECO_PADRAO;
+
+      const qty =
+        Number(item.qty) || 0;
+
+      return total +
+        price * qty;
+
+    },
+    0
+  );
+}
+
+
+/* =========================================================
+   QUANTIDADE TOTAL
+   ========================================================= */
+
+function getCartQuantity() {
+
+  return cart.reduce(
+    (total, item) => {
+
+      return total +
+        (Number(item.qty) || 0);
+
+    },
+    0
+  );
+}
+
+
+/* =========================================================
+   CARRINHO
+   ========================================================= */
+
 function renderCart() {
-  $("#count").textContent = cart.reduce((total, item) => total + item.qty, 0);
+
+  /* Quantidade no botão */
+
+  cartCount.textContent =
+    getCartQuantity();
+
+
+  /* Carrinho vazio */
 
   if (!cart.length) {
-    $("#cartItems").innerHTML = `<div class="empty">Seu carrinho está vazio.</div>`;
+
+    cartItems.innerHTML = `
+      <div class="empty">
+        Seu carrinho está vazio.
+      </div>
+    `;
+
+    updateCartTotal();
+
     return;
   }
 
-  $("#cartItems").innerHTML = cart.map((item, index) => `
-    <div class="item">
-      <div>
-        <b>${item.name}</b><br>
-        <small>${typeLabel(item.type)} • tam. ${item.size}</small><br>
-        <button type="button" class="remove" data-remove-index="${index}">Remover</button>
-      </div>
-      <div class="qty">
-        <button type="button" data-qty-index="${index}" data-qty-change="-1">−</button>
-        <span>${item.qty}</span>
-        <button type="button" data-qty-index="${index}" data-qty-change="1">+</button>
-      </div>
-    </div>
-  `).join("");
+
+  /* Produtos */
+
+  cartItems.innerHTML =
+    cart
+      .map((item, index) => {
+
+        const price =
+          Number(item.price) ||
+          PRECO_PADRAO;
+
+        const qty =
+          Number(item.qty) || 1;
+
+        const subtotal =
+          price * qty;
+
+
+        return `
+          <div class="item">
+
+            <div class="itemInfo">
+
+              <b>
+                ${item.name}
+              </b>
+
+              <br>
+
+              <small>
+                ${typeLabel(item.type)}
+                • tam. ${item.size}
+              </small>
+
+              <br>
+
+              <small>
+                ${formatPrice(price)} cada
+              </small>
+
+              <br>
+
+              <small>
+                Subtotal:
+                <strong>
+                  ${formatPrice(subtotal)}
+                </strong>
+              </small>
+
+              <br>
+
+              <button
+                type="button"
+                class="remove"
+                data-remove-index="${index}"
+              >
+                Remover
+              </button>
+
+            </div>
+
+
+            <div class="qty">
+
+              <button
+                type="button"
+                data-qty-index="${index}"
+                data-qty-change="-1"
+              >
+                −
+              </button>
+
+              <span>
+                ${qty}
+              </span>
+
+              <button
+                type="button"
+                data-qty-index="${index}"
+                data-qty-change="1"
+              >
+                +
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      })
+      .join("");
+
+
+  updateCartTotal();
 }
 
-function changeQuantity(index, change) {
-  if (!cart[index]) return;
-  cart[index].qty += change;
-  if (cart[index].qty <= 0) cart.splice(index, 1);
+
+/* =========================================================
+   ATUALIZAR TOTAL VISUAL
+   ========================================================= */
+
+function updateCartTotal() {
+
+  const total =
+    formatPrice(
+      getCartTotal()
+    );
+
+
+  /*
+    Seu HTML atual possui:
+    .cartFoot .total b
+  */
+
+  const totalElement =
+    document.querySelector(
+      ".cartFoot .total b"
+    );
+
+
+  if (totalElement) {
+
+    totalElement.textContent =
+      total;
+
+  }
+}
+
+
+/* =========================================================
+   ALTERAR QUANTIDADE
+   ========================================================= */
+
+function changeQuantity(
+  index,
+  change
+) {
+
+  if (!cart[index]) {
+    return;
+  }
+
+
+  cart[index].qty =
+    (Number(cart[index].qty) || 0) +
+    change;
+
+
+  if (cart[index].qty <= 0) {
+
+    cart.splice(index, 1);
+
+  }
+
+
   saveCart();
 }
+
+
+/* =========================================================
+   REMOVER PRODUTO
+   ========================================================= */
 
 function removeFromCart(index) {
+
+  if (!cart[index]) {
+    return;
+  }
+
+
   cart.splice(index, 1);
+
   saveCart();
 }
+
+
+/* =========================================================
+   ABRIR CARRINHO
+   ========================================================= */
 
 function openCart() {
-  $("#cart").classList.add("open");
-  $("#shade").classList.add("on");
-}
 
-function closeCart() {
-  $("#cart").classList.remove("open");
-  $("#shade").classList.remove("on");
-}
-
-/* ---------- Eventos ---------- */
-document.addEventListener("click", (event) => {
-  const sizeButton = event.target.closest("#sizes .sizeButton");
-  if (sizeButton && selected) {
-    addToCart(selected.id, sizeButton.dataset.size);
-    return;
-  }
-
-  const productButton = event.target.closest(".add[data-product-id]");
-  if (productButton) {
-    openSizeModal(productButton.dataset.productId);
-    return;
-  }
-
-  const removeButton = event.target.closest("[data-remove-index]");
-  if (removeButton) {
-    removeFromCart(Number(removeButton.dataset.removeIndex));
-    return;
-  }
-
-  const qtyButton = event.target.closest("[data-qty-index]");
-  if (qtyButton) {
-    changeQuantity(
-      Number(qtyButton.dataset.qtyIndex),
-      Number(qtyButton.dataset.qtyChange)
-    );
-  }
-});
-
-document.querySelectorAll(".filters button").forEach((button) => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".filters button").forEach((item) => item.classList.remove("active"));
-    button.classList.add("active");
-    filter = button.dataset.cat;
-    renderProducts();
-  });
-});
-
-$("#type").addEventListener("change", (event) => {
-  type = event.target.value;
-  renderProducts();
-});
-
-$("#openCart").addEventListener("click", openCart);
-$("#closeCart").addEventListener("click", closeCart);
-$("#shade").addEventListener("click", closeCart);
-$("#closeModal").addEventListener("click", closeSizeModal);
-
-$("#modal").addEventListener("click", (event) => {
-  if (event.target === $("#modal")) closeSizeModal();
-});
-
-$("#clear").addEventListener("click", () => {
-  cart = [];
-  saveCart();
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeSizeModal();
-    closeCart();
-  }
-});
-
-$("#checkout").addEventListener("click", () => {
-  if (!cart.length) {
-    alert("Seu carrinho está vazio.");
-    return;
-  }
-
-  const phone = "5511914623625"; // TROQUE pelo WhatsApp da loja
-  const message = encodeURIComponent(
-    "Olá! Quero fazer um pedido na Império Camisas:\n\n" +
-    cart.map((item) =>
-      `• ${item.name} — ${typeLabel(item.type)} — tamanho ${item.size} — qtd. ${item.qty}`
-    ).join("\n")
+  cartElement.classList.add(
+    "open"
   );
 
-  window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`, "_blank");
-});
-renderProducts();
-renderCart();
-
-const searchInput = document.querySelector("#search");
-const clearSearch = document.querySelector("#clearSearch");
-
-searchInput?.addEventListener("input", () => {
-    search = searchInput.value;
-    renderProducts();
-});
-
-clearSearch?.addEventListener("click", () => {
-    searchInput.value = "";
-    search = "";
-    renderProducts();
-    searchInput.focus();
-});
-
-let selectedProduct = null;
-let selectedSize = null;
-
-
-// ABRIR PRODUTO
-function openProductModal(product) {
-
-  selectedProduct = product;
-  selectedSize = null;
-
-  const modal = document.getElementById("productModal");
-
-  document.getElementById("modalProductImage").src = product.image;
-
-  document.getElementById("modalProductImage").alt = product.name;
-
-  document.getElementById("modalProductName").textContent =
-    product.name;
-
-  document.getElementById("modalProductModel").textContent =
-    "Modelo " + product.model;
-
-  document.getElementById("modalProductCategory").textContent =
-    product.category || "Camisas";
-
-  // Limpa tamanho selecionado
-  document
-    .querySelectorAll(".size-options button")
-    .forEach(button => {
-      button.classList.remove("selected");
-    });
-
-  modal.classList.add("active");
-
-  document.body.style.overflow = "hidden";
+  shade.classList.add(
+    "on"
+  );
 }
 
 
-// FECHAR
-function closeProductModal() {
+/* =========================================================
+   FECHAR CARRINHO
+   ========================================================= */
 
-  document
-    .getElementById("productModal")
-    .classList.remove("active");
+function closeCart() {
 
-  document.body.style.overflow = "";
+  cartElement.classList.remove(
+    "open"
+  );
 
-  selectedProduct = null;
-  selectedSize = null;
+  shade.classList.remove(
+    "on"
+  );
 }
 
 
-// ESCOLHER TAMANHO
-function selectSize(button, size) {
+/* =========================================================
+   EVENTOS
+   ========================================================= */
 
-  document
-    .querySelectorAll(".size-options button")
-    .forEach(btn => {
-      btn.classList.remove("selected");
-    });
+document.addEventListener(
+  "click",
+  (event) => {
 
-  button.classList.add("selected");
+    /* ---------- Tamanho ---------- */
 
-  selectedSize = size;
-}
+    const sizeButton =
+      event.target.closest(
+        "#sizes .sizeButton"
+      );
 
 
-// ADICIONAR AO CARRINHO
-document
-  .getElementById("addToCartButton")
-  .addEventListener("click", function () {
+    if (
+      sizeButton &&
+      selected
+    ) {
 
-    if (!selectedProduct) {
+      addToCart(
+        selected.id,
+        sizeButton.dataset.size
+      );
+
       return;
     }
 
-    if (!selectedSize) {
-      alert("Escolha um tamanho antes de continuar.");
+
+    /* ---------- Produto ---------- */
+
+    const productButton =
+      event.target.closest(
+        ".add[data-product-id]"
+      );
+
+
+    if (productButton) {
+
+      openSizeModal(
+        productButton.dataset.productId
+      );
+
       return;
     }
 
-    const productToCart = {
-      ...selectedProduct,
-      size: selectedSize
-    };
 
-    // Pega carrinho atual
-    let cart =
-      JSON.parse(localStorage.getItem("imperioCart")) || [];
+    /* ---------- Remover ---------- */
 
-    cart.push(productToCart);
-
-    localStorage.setItem(
-      "imperioCart",
-      JSON.stringify(cart)
-    );
-
-    closeProductModal();
-
-    alert(
-      selectedProduct.name +
-      " - tamanho " +
-      selectedSize +
-      " foi adicionado ao carrinho."
-    );
-  });
+    const removeButton =
+      event.target.closest(
+        "[data-remove-index]"
+      );
 
 
-// FECHAR CLICANDO FORA
-document
-  .getElementById("productModal")
-  .addEventListener("click", function (event) {
+    if (removeButton) {
 
-    if (event.target === this) {
-      closeProductModal();
+      removeFromCart(
+        Number(
+          removeButton.dataset
+            .removeIndex
+        )
+      );
+
+      return;
     }
+
+
+    /* ---------- Quantidade ---------- */
+
+    const qtyButton =
+      event.target.closest(
+        "[data-qty-index]"
+      );
+
+
+    if (qtyButton) {
+
+      changeQuantity(
+
+        Number(
+          qtyButton.dataset
+            .qtyIndex
+        ),
+
+        Number(
+          qtyButton.dataset
+            .qtyChange
+        )
+
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+document
+  .querySelectorAll(
+    ".filters button"
+  )
+  .forEach((button) => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        promoOnly = false;
+
+        document
+          .querySelectorAll(
+            ".filters button"
+          )
+          .forEach((item) => {
+
+            item.classList.remove(
+              "active"
+            );
+
+          });
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        filter =
+          button.dataset.cat;
+
+
+        renderProducts();
+
+      }
+    );
+
   });
 
 
-// FECHAR COM ESC
-document.addEventListener("keydown", function(event) {
+/* =========================================================
+   FILTRO TORCEDOR / JOGADOR
+   ========================================================= */
 
-  if (event.key === "Escape") {
-    closeProductModal();
+const typeSelect =
+  $("#type");
+
+
+if (typeSelect) {
+
+  typeSelect.addEventListener(
+    "change",
+    (event) => {
+
+      type =
+        event.target.value;
+
+      renderProducts();
+
+    }
+  );
+
+  $("#priceFilter").addEventListener("change", (event) => {
+    priceFilter = event.target.value;
+    renderProducts();
+});
+
+}
+
+
+/* =========================================================
+   BOTÃO CARRINHO
+   ========================================================= */
+
+const openCartButton =
+  $("#openCart");
+
+
+if (openCartButton) {
+
+  openCartButton.addEventListener(
+    "click",
+    openCart
+  );
+
+}
+
+
+const closeCartButton =
+  $("#closeCart");
+
+
+if (closeCartButton) {
+
+  closeCartButton.addEventListener(
+    "click",
+    closeCart
+  );
+
+}
+
+
+if (shade) {
+
+  shade.addEventListener(
+    "click",
+    closeCart
+  );
+
+}
+
+
+/* =========================================================
+   FECHAR MODAL
+   ========================================================= */
+
+const closeModalButton =
+  $("#closeModal");
+
+
+if (closeModalButton) {
+
+  closeModalButton.addEventListener(
+    "click",
+    closeSizeModal
+  );
+
+}
+
+
+if (modal) {
+
+  modal.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        event.target === modal
+      ) {
+
+        closeSizeModal();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LIMPAR CARRINHO
+   ========================================================= */
+
+const clearButton =
+  $("#clear");
+
+
+if (clearButton) {
+
+  clearButton.addEventListener(
+    "click",
+    () => {
+
+      cart = [];
+
+      saveCart();
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   TECLA ESC
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (event.key === "Escape") {
+
+      closeSizeModal();
+
+      closeCart();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   PESQUISA
+   ========================================================= */
+
+const searchInput =
+  $("#search");
+
+const clearSearch =
+  $("#clearSearch");
+
+
+if (searchInput) {
+
+  searchInput.addEventListener(
+    "input",
+    () => {
+
+      search =
+        searchInput.value;
+
+      renderProducts();
+
+    }
+  );
+
+}
+
+
+if (clearSearch) {
+
+  clearSearch.addEventListener(
+    "click",
+    () => {
+
+      if (searchInput) {
+
+        searchInput.value = "";
+
+        search = "";
+
+        renderProducts();
+
+        searchInput.focus();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   WHATSAPP
+   ========================================================= */
+
+const checkoutButton =
+  $("#checkout");
+
+
+if (checkoutButton) {
+
+  checkoutButton.addEventListener(
+    "click",
+    () => {
+
+      if (!cart.length) {
+
+        alert(
+          "Seu carrinho está vazio."
+        );
+
+        return;
+
+      }
+
+
+      const total =
+        formatPrice(
+          getCartTotal()
+        );
+
+
+      const productsMessage =
+        cart
+          .map((item) => {
+
+            const price =
+              Number(item.price) ||
+              PRECO_PADRAO;
+
+            const subtotal =
+              price * item.qty;
+
+
+            return (
+              `• ${item.qty}x ` +
+              `${item.name} ` +
+              `— ${typeLabel(item.type)} ` +
+              `— tamanho ${item.size} ` +
+              `— ${formatPrice(subtotal)}`
+            );
+
+          })
+          .join("\n");
+
+
+      const message = encodeURIComponent(
+
+        "Olá! Quero fazer um pedido na Império Camisas:\n\n" +
+
+        productsMessage +
+
+        "\n\n" +
+
+        `TOTAL: ${total}`
+
+      );
+
+
+      window.open(
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
+        "_blank"
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CORREÇÃO DE CARRINHOS ANTIGOS
+   ========================================================= */
+
+/*
+  Se você já tinha produtos no carrinho antes
+  de colocar os preços, eles não tinham a propriedade
+  "price".
+
+  Aqui adicionamos automaticamente o preço padrão.
+*/
+
+cart.forEach((item) => {
+
+  if (
+    !Number.isFinite(
+      Number(item.price)
+    ) ||
+    Number(item.price) <= 0
+  ) {
+
+    item.price =
+      PRECO_PADRAO;
+
   }
 
 });
+
+
+/* Salva novamente o carrinho corrigido */
+
+if (cart.length) {
+
+  localStorage.setItem(
+    "imperioCart",
+    JSON.stringify(cart)
+  );
+
+}
+
+
+/* =========================================================
+   INICIAR SITE
+   ========================================================= */
+
+renderProducts();
+
+renderCart();
