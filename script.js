@@ -432,26 +432,25 @@ function openSizeModal(productId) {
 
   } else {
 
-    sizesContainer.innerHTML =
-      sizes
-        .map((size) => {
+sizesContainer.innerHTML = sizes.map((size) => `
+  <button
+    type="button"
+    class="sizeButton"
+    data-size="${size}"
+  >
+    ${size}
+  </button>
+`).join("");
 
-          const safeSize =
-            String(size)
-              .replace(/"/g, "&quot;");
+sizesContainer.querySelectorAll(".sizeButton").forEach((button) => {
+  button.addEventListener("click", () => {
+    const size = button.dataset.size;
 
-          return `
-            <button
-              type="button"
-              class="sizeButton"
-              data-size="${safeSize}"
-            >
-              ${size}
-            </button>
-          `;
+    addToCart(selected.id, size);
 
-        })
-        .join("");
+    closeSizeModal();
+  });
+});
 
   }
 
@@ -493,74 +492,46 @@ function closeSizeModal() {
    ========================================================= */
 
 function addToCart(productId, size) {
-
-  const product =
-    PRODUCTS.find(
-      (item) =>
-        Number(item.id) ===
-        Number(productId)
-    );
-
+  const product = PRODUCTS.find(
+    (item) => Number(item.id) === Number(productId)
+  );
 
   if (!product) {
     return;
   }
 
+  const price = getProductPrice(product);
 
-  const price =
-    getProductPrice(product);
-const isPromo = PROMO_PRODUCTS.includes(Number(product.id));
+  // Se a camisa estiver na promoção, usa o preço promocional
+  const isPromo = PROMO_PRODUCTS.includes(Number(product.id));
 
-const displayPrice = isPromo
-  ? PROMO_PRICE
-  : price;
+  const displayPrice = isPromo
+    ? PROMO_PRICE
+    : price;
 
-  /*
-    Verifica se já existe
-    o mesmo produto + tamanho
-  */
-
-  const existing =
-    cart.find(
-      (item) =>
-        Number(item.id) ===
-          Number(productId) &&
-        item.size === size
-    );
-
+  // Verifica se já existe o mesmo produto + tamanho
+  const existing = cart.find(
+    (item) =>
+      Number(item.id) === Number(productId) &&
+      item.size === size
+  );
 
   if (existing) {
-
     existing.qty += 1;
 
-    /*
-      Garante que carrinhos antigos
-      também recebam preço.
-    */
-
-    existing.price =
-      getProductPrice(existing);
+    // Atualiza também o preço
+    existing.price = displayPrice;
 
   } else {
-
     cart.push({
-
       id: product.id,
-
       name: product.name,
-
       type: product.type,
-
       size: size,
-
-      price: price,
-
+      price: displayPrice,
       qty: 1
-
     });
-
   }
-
 
   saveCart();
 
@@ -880,20 +851,17 @@ document.addEventListener(
 
     /* ---------- Produto ---------- */
 
-    const productButton =
-      event.target.closest(
-        ".add[data-product-id]"
-      );
+  const productButton = event.target.closest(
+    ".add[data-product-id]"
+  );
 
+  if (productButton) {
+    openSizeModal(
+      Number(productButton.dataset.productId)
+    );
 
-    if (productButton) {
-
-      openSizeModal(
-        productButton.dataset.productId
-      );
-
-      return;
-    }
+    return;
+  }
 
 
     /* ---------- Remover ---------- */
